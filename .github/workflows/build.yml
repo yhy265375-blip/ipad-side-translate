@@ -1,0 +1,36 @@
+name: Build unsigned iPad prototype
+on:
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  build:
+    runs-on: macos-15
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+      - name: Check build tools
+        run: xcodebuild -version
+      - name: Install project generator
+        run: brew install xcodegen
+      - name: Generate Xcode project
+        run: xcodegen generate
+      - name: Build for physical iPad without signing
+        run: >-
+          xcodebuild -project SideTranslate.xcodeproj -scheme SideTranslate
+          -configuration Release -sdk iphoneos -destination 'generic/platform=iOS'
+          -derivedDataPath build CODE_SIGNING_ALLOWED=NO build
+      - name: Package unsigned IPA
+        run: |
+          /usr/libexec/PlistBuddy -c 'Print :NSExtension:RPBroadcastProcessMode' build/Build/Products/Release-iphoneos/SideTranslate.app/PlugIns/ScreenBroadcast.appex/Info.plist
+          test -f build/Build/Products/Release-iphoneos/SideTranslate.app/SideTranslate
+          test -f build/Build/Products/Release-iphoneos/SideTranslate.app/PlugIns/ScreenBroadcast.appex/ScreenBroadcast
+          mkdir -p package/Payload
+          cp -R build/Build/Products/Release-iphoneos/SideTranslate.app package/Payload/
+          cd package
+          /usr/bin/zip -qr ../SideTranslate-unsigned.ipa Payload
+      - uses: actions/upload-artifact@v4
+        with:
+          name: SideTranslate-unsigned
+          path: SideTranslate-unsigned.ipa
+          retention-days: 7
