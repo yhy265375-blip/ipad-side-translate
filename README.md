@@ -2,7 +2,7 @@
 
 目标：继续在自由笔记阅读图片型 PDF，旁边的窗口自动识别英语并翻译成中文。无需再次导入 PDF。
 
-**当前交付是源码原型，不是可直接安装的成品。** 本机只有 Windows，未运行 Xcode 编译、免费签名、安装或 iPad 真机测试。源码中的实现不能证明免费签名后的屏幕采集一定成功。请先完成下方验证，再决定是否继续投入。
+**当前交付是待真机验证的原型。** 已在 GitHub 私有仓库完成首次 Xcode 真机目标编译并生成未签名 IPA；尚未进行免费签名、安装或 iPad 真机测试。编译通过不能证明免费签名后的屏幕采集一定成功。
 
 ## 已写入的功能
 
@@ -27,7 +27,7 @@
 
 ## 构建步骤
 
-### GitHub 云端构建（尚未执行）
+### GitHub 云端构建
 
 1. 创建自己的仓库，将本目录所有文件放在仓库根目录，包括 `.github/workflows/build.yml`。Windows 文件管理器中隐藏的 `.github` 文件夹也要包含。
 2. 打开 GitHub 仓库的 Actions，选择 `Build unsigned iPad prototype` → `Run workflow`。
@@ -35,7 +35,7 @@
 4. 构建成功后下载 `SideTranslate-unsigned` artifact，解压得到 `SideTranslate-unsigned.ipa`。
 5. **该 IPA 没有签名，不能直接点开安装**，需要侧载工具签名。
 
-本次没有创建远程仓库、上传代码、执行 GitHub Actions、安装侧载工具或登录 Apple 账户。云端编译可能暴露尚未发现的 Swift/SDK 问题，应以实际构建日志为准。
+已创建私有仓库 https://github.com/yhy265375-blip/ipad-side-translate 并上传源码；首次构建成功：https://github.com/yhy265375-blip/ipad-side-translate/actions/runs/41221089448 。生成的主 App 和广播扩展均为真机二进制，下载文件哈希与 GitHub 显示值一致。尚未安装侧载工具或登录 Apple 账户。之后添加的修改应以对应构建记录为准。
 
 ### 借用 Mac 时
 
@@ -71,7 +71,7 @@ xcodebuild -project SideTranslate.xcodeproj -scheme SideTranslate \
 
 ## 当前限制
 
-- 没有编译或真机测试结果；没有可直接安装的 IPA。
+- 已有未签名 IPA 和云端编译记录；尚无免费签名、安装或真机功能测试结果。未签名包不能直接安装。
 - 本版仅英语 → 简体中文。使用苹果基础翻译，学术术语质量尚未评估。
 - 仅分屏窗口，未实现悬浮小窗、任意屏幕框选或贴着原文显示中文。
 - 需要主 App 与自由笔记同时可见，切到后台不保证持续识别。
