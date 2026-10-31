@@ -1,0 +1,1 @@
+# ipad-side-translate
