@@ -1,0 +1,34 @@
+name: SideTranslate
+options:
+  bundleIdPrefix: local.sidetranslate
+  deploymentTarget:
+    iOS: '18.0'
+settings:
+  base:
+    SWIFT_VERSION: '5.0'
+    TARGETED_DEVICE_FAMILY: '2'
+    CODE_SIGNING_ALLOWED: NO
+    MARKETING_VERSION: '0.1.0'
+    CURRENT_PROJECT_VERSION: '1'
+targets:
+  SideTranslate:
+    type: application
+    platform: iOS
+    sources: [FrameServer.swift, ReaderModel.swift, SideTranslateApp.swift]
+    settings:
+      base:
+        PRODUCT_BUNDLE_IDENTIFIER: local.sidetranslate.reader
+        INFOPLIST_FILE: AppInfo.plist
+    dependencies:
+      - target: ScreenBroadcast
+        embed: true
+  ScreenBroadcast:
+    type: app-extension
+    platform: iOS
+    sources: [SampleHandler.swift]
+    settings:
+      base:
+        PRODUCT_BUNDLE_IDENTIFIER: local.sidetranslate.reader.broadcast
+        INFOPLIST_FILE: BroadcastInfo.plist
+        APPLICATION_EXTENSION_API_ONLY: YES
+        SKIP_INSTALL: YES
