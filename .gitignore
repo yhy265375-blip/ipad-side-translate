@@ -3,3 +3,14 @@ package/
 *.ipa
 *.xcodeproj/
 .DS_Store
+DerivedData/
+*.xcuserstate
+xcuserdata/
+*.p12
+*.p8
+*.mobileprovision
+*.cer
+.env
+.env.*
+*.log
+
